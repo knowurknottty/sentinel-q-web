@@ -440,34 +440,71 @@
         
         async function fetchBBC() {
             try {
-                const html = await fetchWithRetry('https://www.bbc.com/news/world/middle-east', 'BBC');
+                // Try multiple BBC URLs
+                const urls = [
+                    'https://www.bbc.com/news/world/middle-east',
+                    'https://www.bbc.co.uk/news/world/middle_east'
+                ];
+                
+                let html = null;
+                for (const url of urls) {
+                    try {
+                        html = await fetchWithRetry(url, 'BBC');
+                        if (html && html.length > 1000) break;
+                    } catch (e) {
+                        continue;
+                    }
+                }
+                
+                if (!html) throw new Error('Could not fetch BBC');
+                
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
                 const items = [];
                 
-                doc.querySelectorAll('[data-testid="card-headline"], h2, h3').forEach(el => {
-                    const text = el.textContent.trim();
-                    if (text && text.length > 20 && 
-                        (text.toLowerCase().includes('qatar') || 
-                         text.toLowerCase().includes('iran') || 
-                         text.toLowerCase().includes('missile') ||
-                         text.toLowerCase().includes('strike') ||
-                         text.toLowerCase().includes('al udeid') ||
-                         text.toLowerCase().includes('dubai') ||
-                         text.toLowerCase().includes('uae'))) {
-                        
-                        const details = parseArticleDetails(text, 'BBC');
-                        items.push({
-                            source: 'BBC',
-                            text: text,
-                            timestamp: new Date().toISOString(),
-                            details: details
-                        });
-                    }
-                });
+                // Try multiple selectors for BBC headlines
+                const selectors = [
+                    '[data-testid="card-headline"]',
+                    '[data-testid="headline"]',
+                    '.gs-c-promo-heading__title',
+                    'h2[data-testid]',
+                    'h3[data-testid]',
+                    '.sc-8dae66f0-0', // Alternative BBC class
+                    'a[href*="/news/"] h2',
+                    'a[href*="/news/"] h3'
+                ];
+                
+                for (const selector of selectors) {
+                    doc.querySelectorAll(selector).forEach(el => {
+                        const text = el.textContent.trim();
+                        if (text && text.length > 15 && text.length < 200 &&
+                            (text.toLowerCase().includes('qatar') || 
+                             text.toLowerCase().includes('iran') || 
+                             text.toLowerCase().includes('missile') ||
+                             text.toLowerCase().includes('strike') ||
+                             text.toLowerCase().includes('dubai') ||
+                             text.toLowerCase().includes('uae') ||
+                             text.toLowerCase().includes('gulf') ||
+                             text.toLowerCase().includes('attack'))) {
+                            
+                            // Avoid duplicates
+                            if (!items.some(i => i.text === text)) {
+                                const details = parseArticleDetails(text, 'BBC');
+                                items.push({
+                                    source: 'BBC',
+                                    text: text,
+                                    timestamp: new Date().toISOString(),
+                                    details: details
+                                });
+                            }
+                        }
+                    });
+                }
+                
                 return items.slice(0, 4);
             } catch (e) {
-                return [{ source: 'BBC', text: 'Fetch error: ' + e.message, error: true }];
+                console.error('BBC fetch error:', e);
+                return [{ source: 'BBC', text: 'BBC blocked - using fallback sources', error: true }];
             }
         }
         
