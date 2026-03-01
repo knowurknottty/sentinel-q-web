@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SENTINEL-Q | Qatar Situational Awareness</title>
-    <meta http-equiv="refresh" content="60">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -21,10 +20,7 @@
         .header.red { border-bottom-color: #ff3333; }
         .header.orange { border-bottom-color: #ff9933; }
         .header.yellow { border-bottom-color: #ffff33; }
-        .header h1 {
-            font-size: 2rem;
-            letter-spacing: 4px;
-        }
+        .header h1 { font-size: 2rem; letter-spacing: 4px; }
         .status-bar {
             display: flex;
             gap: 20px;
@@ -33,200 +29,63 @@
             border-bottom: 1px solid #333;
             flex-wrap: wrap;
         }
-        .status-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .status-item { display: flex; align-items: center; gap: 8px; }
         .status-indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
+            width: 12px; height: 12px; border-radius: 50%;
             animation: pulse 2s infinite;
         }
         .status-red { background: #ff3333; box-shadow: 0 0 10px #ff3333; }
         .status-orange { background: #ff9933; }
         .status-yellow { background: #ffff33; }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        .main-content {
-            padding: 20px;
-            max-width: 1600px;
-            margin: 0 auto;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-        .panel {
-            background: #1a1a2e;
-            border: 1px solid #333;
-            border-radius: 8px;
-            padding: 20px;
-        }
-        .panel.full-width {
-            grid-column: 1 / -1;
-        }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .main-content { padding: 20px; max-width: 1600px; margin: 0 auto; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .panel { background: #1a1a2e; border: 1px solid #333; border-radius: 8px; padding: 20px; }
+        .panel.full-width { grid-column: 1 / -1; }
         .panel-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #333;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #333;
         }
-        .panel-title {
-            color: #ff9933;
-            font-size: 1.1rem;
-            font-weight: bold;
-        }
-        .panel-time {
-            color: #666;
-            font-size: 0.8rem;
-        }
-        /* Tactical Map Styles */
-        .tactical-map {
-            position: relative;
-            background: #0a0f1a;
-            border-radius: 8px;
-            overflow: hidden;
-            min-height: 500px;
-        }
-        .map-svg {
-            width: 100%;
-            height: auto;
-        }
+        .panel-title { color: #ff9933; font-size: 1.1rem; font-weight: bold; }
+        .tactical-map { position: relative; background: #0a0f1a; border-radius: 8px; overflow: hidden; min-height: 500px; }
         .legend {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(15, 15, 26, 0.95);
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #333;
-            font-size: 0.85rem;
+            position: absolute; bottom: 20px; right: 20px;
+            background: rgba(15, 15, 26, 0.95); padding: 15px;
+            border-radius: 8px; border: 1px solid #333; font-size: 0.85rem;
         }
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 8px;
+        .legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+        .legend-color { width: 16px; height: 16px; border-radius: 50%; }
+        .situational-awareness { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .sa-item { background: #0f0f1a; padding: 12px; border-radius: 4px; border-left: 3px solid #ff9933; }
+        .sa-label { color: #666; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 4px; }
+        .sa-value { color: #fff; font-size: 1rem; font-weight: bold; }
+        .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 20px; }
+        .metric { background: #0f0f1a; padding: 15px; border-radius: 4px; text-align: center; }
+        .metric-value { font-size: 2rem; color: #ff9933; font-weight: bold; }
+        .metric-label { color: #666; font-size: 0.8rem; margin-top: 5px; }
+        .feed-item { padding: 12px; margin-bottom: 10px; background: #0f0f1a; border-left: 3px solid #333; border-radius: 4px; font-size: 0.9rem; }
+        .feed-item.critical { border-left-color: #ff3333; background: #1a0f0f; }
+        .feed-item.warning { border-left-color: #ff9933; background: #1a150f; }
+        .feed-source { color: #ff9933; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 5px; }
+        .defense-status { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px; }
+        .defense-item { background: #0f0f1a; padding: 10px; border-radius: 4px; text-align: center; }
+        .defense-item.active { border: 1px solid #33ff33; }
+        .defense-item.standby { border: 1px solid #ffaa33; }
+        .defense-name { color: #fff; font-weight: bold; font-size: 0.9rem; }
+        .fetch-btn {
+            background: #ff9933; color: #000; border: none; padding: 10px 20px;
+            border-radius: 4px; cursor: pointer; font-weight: bold; margin-top: 10px;
         }
-        .legend-color {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-        }
-        .situational-awareness {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-        .sa-item {
-            background: #0f0f1a;
-            padding: 12px;
-            border-radius: 4px;
-            border-left: 3px solid #ff9933;
-        }
-        .sa-label {
-            color: #666;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            margin-bottom: 4px;
-        }
-        .sa-value {
-            color: #fff;
-            font-size: 1rem;
-            font-weight: bold;
-        }
-        .metrics {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-top: 20px;
-        }
-        .metric {
-            background: #0f0f1a;
-            padding: 15px;
-            border-radius: 4px;
-            text-align: center;
-        }
-        .metric-value {
-            font-size: 2rem;
-            color: #ff9933;
-            font-weight: bold;
-        }
-        .metric-label {
-            color: #666;
-            font-size: 0.8rem;
-            margin-top: 5px;
-        }
-        .feed-item {
-            padding: 12px;
-            margin-bottom: 10px;
-            background: #0f0f1a;
-            border-left: 3px solid #333;
-            border-radius: 4px;
-            font-size: 0.9rem;
-        }
-        .feed-item.critical {
-            border-left-color: #ff3333;
-            background: #1a0f0f;
-        }
-        .feed-item.warning {
-            border-left-color: #ff9933;
-            background: #1a150f;
-        }
-        .feed-source {
-            color: #ff9933;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            margin-bottom: 5px;
-        }
-        .defense-status {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-top: 15px;
-        }
-        .defense-item {
-            background: #0f0f1a;
-            padding: 10px;
-            border-radius: 4px;
-            text-align: center;
-        }
-        .defense-item.active {
-            border: 1px solid #33ff33;
-        }
-        .defense-item.standby {
-            border: 1px solid #ffaa33;
-        }
-        .defense-name {
-            color: #fff;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-        .defense-status-text {
-            color: #666;
-            font-size: 0.75rem;
-        }
-        .footer {
-            text-align: center;
-            padding: 20px;
-            color: #666;
-            font-size: 0.8rem;
-            border-top: 1px solid #333;
-            margin-top: 40px;
-        }
+        .fetch-btn:hover { background: #ffaa44; }
+        .loading { color: #ff9933; animation: blink 1s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .footer { text-align: center; padding: 20px; color: #666; font-size: 0.8rem; border-top: 1px solid #333; margin-top: 40px; }
     </style>
 </head>
 <body>
     <div class="header orange" id="header">
         <h1 id="header-title">🟠 SENTINEL-Q</h1>
-        <p style="color: #888; margin-top: 5px;">Qatar Situational Awareness | Al Udeid Air Base Monitor | Auto-refresh: 60s</p>
+        <p style="color: #888; margin-top: 5px;">Qatar Situational Awareness | Client-Side Live Fetch</p>
     </div>
     
     <div class="status-bar">
@@ -235,16 +94,13 @@
             <span id="threat-level">THREAT LEVEL: ORANGE</span>
         </div>
         <div class="status-item">
-            <span>Last Update: <span id="last-update">--</span></span>
+            <span>Last Fetch: <span id="last-fetch">--</span></span>
         </div>
         <div class="status-item">
-            <span>Next Check: <span id="next-check">--</span></span>
+            <button class="fetch-btn" onclick="fetchAllIntel()">🔄 FETCH NOW</button>
         </div>
         <div class="status-item">
-            <span>Sources: 8 Active</span>
-        </div>
-        <div class="status-item">
-            <span>Region: Qatar/Gulf</span>
+            <span id="fetch-status"></span>
         </div>
     </div>
 
@@ -254,14 +110,11 @@
             <div class="panel full-width">
                 <div class="panel-header">
                     <span class="panel-title">🗺️ TACTICAL SITUATION MAP</span>
-                    <span class="panel-time">Live Threat Geometry</span>
+                    <span class="panel-time">Al Udeid Air Base | CENTCOM Forward HQ</span>
                 </div>
                 <div class="tactical-map">
-                    <svg viewBox="0 0 1000 500" class="map-svg">
-                        <!-- Background -->
+                    <svg viewBox="0 0 1000 500" style="width:100%;height:auto;">
                         <rect width="1000" height="500" fill="#0a0f1a"/>
-                        
-                        <!-- Grid -->
                         <g stroke="#1a2030" stroke-width="0.5">
                             <line x1="0" y1="100" x2="1000" y2="100"/>
                             <line x1="0" y1="200" x2="1000" y2="200"/>
@@ -272,35 +125,28 @@
                             <line x1="600" y1="0" x2="600" y2="500"/>
                             <line x1="800" y1="0" x2="800" y2="500"/>
                         </g>
-                        
-                        <!-- Iran (NW) -->
                         <rect x="50" y="50" width="150" height="100" fill="#1a0f0f" stroke="#ff3333" stroke-width="2"/>
                         <text x="125" y="105" fill="#ff6666" font-size="14" text-anchor="middle">IRAN</text>
                         <text x="125" y="125" fill="#ff8888" font-size="10" text-anchor="middle">Launch Sites</text>
                         
-                        <!-- Threat axis arrow -->
                         <line x1="200" y1="100" x2="450" y2="250" stroke="#ff3333" stroke-width="2" stroke-dasharray="10,5"/>
                         <polygon points="450,250 440,240 440,260" fill="#ff3333"/>
                         <text x="300" y="160" fill="#ff6666" font-size="11">Missile Trajectory</text>
                         <text x="300" y="175" fill="#ff8888" font-size="9">~300km | 4-7 min flight</text>
                         
-                        <!-- PRIMARY IMPACT ZONE (5km) -->
-                        <circle cx="600" cy="250" r="80" fill="url(#primaryZone)" opacity="0.4"/>
+                        <circle cx="600" cy="250" r="80" fill="#ff3333" opacity="0.2"/>
                         <circle cx="600" cy="250" r="80" fill="none" stroke="#ff3333" stroke-width="2" stroke-dasharray="10,5"/>
                         <text x="700" y="240" fill="#ff6666" font-size="11">PRIMARY IMPACT ZONE</text>
                         <text x="700" y="255" fill="#ff8888" font-size="9">5km radius</text>
                         
-                        <!-- DEBRIS ZONE (10km) -->
-                        <circle cx="600" cy="250" r="140" fill="url(#debrisZone)" opacity="0.2"/>
+                        <circle cx="600" cy="250" r="140" fill="#ff9933" opacity="0.1"/>
                         <circle cx="600" cy="250" r="140" fill="none" stroke="#ff9933" stroke-width="2" stroke-dasharray="5,10"/>
                         <text x="750" y="350" fill="#ffaa66" font-size="10">DEBRIS ZONE (10km)</text>
                         
-                        <!-- AL UDEID AIR BASE -->
                         <circle cx="600" cy="250" r="12" fill="#e94560" stroke="#fff" stroke-width="2"/>
                         <text x="620" y="245" fill="#fff" font-size="14" font-weight="bold">AL UDEID AIR BASE</text>
                         <text x="620" y="265" fill="#888" font-size="10">CENTCOM Forward HQ</text>
                         
-                        <!-- Defense systems -->
                         <circle cx="550" cy="200" r="6" fill="#33ff33"/>
                         <text x="530" y="195" fill="#88ff88" font-size="9" text-anchor="end">THAAD</text>
                         
@@ -310,49 +156,22 @@
                         <circle cx="600" cy="300" r="6" fill="#ffaa33"/>
                         <text x="615" y="305" fill="#ffcc88" font-size="9">PATRIOT</text>
                         
-                        <!-- Doha -->
                         <circle cx="600" cy="380" r="8" fill="#4488ff"/>
                         <text x="615" y="385" fill="#88bbff" font-size="11">DOHA</text>
                         <text x="615" y="400" fill="#666" font-size="9">Population: 2.4M</text>
                         
-                        <!-- UAE/Dubai -->
                         <rect x="750" y="350" width="100" height="60" fill="#0f1a0f" stroke="#44ff88" stroke-width="1"/>
                         <text x="800" y="385" fill="#88ffaa" font-size="12" text-anchor="middle">UAE / DUBAI</text>
                         
-                        <!-- Scale -->
                         <line x1="50" y1="450" x2="150" y2="450" stroke="#666" stroke-width="2"/>
                         <text x="100" y="470" fill="#666" font-size="10" text-anchor="middle">100km</text>
-                        
-                        <!-- Gradients -->
-                        <defs>
-                            <radialGradient id="primaryZone" cx="50%" cy="50%">
-                                <stop offset="0%" stop-color="#ff3333" stop-opacity="0.3"/>
-                                <stop offset="100%" stop-color="#ff3333" stop-opacity="0.05"/>
-                            </radialGradient>
-                            <radialGradient id="debrisZone" cx="50%" cy="50%">
-                                <stop offset="0%" stop-color="#ff9933" stop-opacity="0.2"/>
-                                <stop offset="100%" stop-color="#ff9933" stop-opacity="0.05"/>
-                            </radialGradient>
-                        </defs>
                     </svg>
                     
                     <div class="legend">
-                        <div class="legend-item">
-                            <div class="legend-color" style="background: #ff3333;"></div>
-                            <span>Primary Impact Zone (5km)</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color" style="background: #ff9933;"></div>
-                            <span>Debris Zone (10km)</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color" style="background: #33ff33;"></div>
-                            <span>Defense Systems (Active)</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color" style="background: #e94560;"></div>
-                            <span>Al Udeid Air Base</span>
-                        </div>
+                        <div class="legend-item"><div class="legend-color" style="background:#ff3333;"></div><span>Primary Impact Zone (5km)</span></div>
+                        <div class="legend-item"><div class="legend-color" style="background:#ff9933;"></div><span>Debris Zone (10km)</span></div>
+                        <div class="legend-item"><div class="legend-color" style="background:#33ff33;"></div><span>Defense Systems (Active)</span></div>
+                        <div class="legend-item"><div class="legend-color" style="background:#e94560;"></div><span>Al Udeid Air Base</span></div>
                     </div>
                 </div>
             </div>
@@ -362,30 +181,30 @@
                 <div class="panel-header">
                     <span class="panel-title">📊 Situational Awareness</span>
                 </div>
-                <div class="situational-awareness" id="sa-container">
+                <div class="situational-awareness">
                     <div class="sa-item">
                         <div class="sa-label">Primary Threat</div>
-                        <div class="sa-value" id="sa-threat">Iranian missile strikes</div>
+                        <div class="sa-value">Iranian missile strikes</div>
                     </div>
                     <div class="sa-item">
                         <div class="sa-label">Threat Axis</div>
-                        <div class="sa-value" id="sa-axis">NW → SE</div>
+                        <div class="sa-value">NW → SE</div>
                     </div>
                     <div class="sa-item">
                         <div class="sa-label">Distance</div>
-                        <div class="sa-value" id="sa-distance">~300km</div>
+                        <div class="sa-value">~300km</div>
                     </div>
                     <div class="sa-item">
                         <div class="sa-label">Flight Time</div>
-                        <div class="sa-value" id="sa-flight">4-7 minutes</div>
+                        <div class="sa-value">4-7 minutes</div>
                     </div>
                     <div class="sa-item">
                         <div class="sa-label">US Assets</div>
-                        <div class="sa-value" id="sa-assets">Al Udeid (CENTCOM)</div>
+                        <div class="sa-value">Al Udeid (CENTCOM)</div>
                     </div>
                     <div class="sa-item">
                         <div class="sa-label">Civilian Impact</div>
-                        <div class="sa-value" id="sa-civilian">Flights grounded</div>
+                        <div class="sa-value">Flights grounded</div>
                     </div>
                 </div>
                 
@@ -405,40 +224,41 @@
                 </div>
             </div>
 
-            <!-- SOURCE METRICS -->
+            <!-- LIVE INTEL FEED -->
             <div class="panel">
                 <div class="panel-header">
-                    <span class="panel-title">📡 Intelligence Sources</span>
-                </div>
-                <div class="metrics">
-                    <div class="metric">
-                        <div class="metric-value" id="bbc-count">--</div>
-                        <div class="metric-label">BBC</div>
-                    </div>
-                    <div class="metric">
-                        <div class="metric-value" id="reuters-count">--</div>
-                        <div class="metric-label">Reuters</div>
-                    </div>
-                    <div class="metric">
-                        <div class="metric-value" id="aljaz-count">--</div>
-                        <div class="metric-label">Al Jazeera</div>
-                    </div>
-                    <div class="metric">
-                        <div class="metric-value" id="qatar-count">--</div>
-                        <div class="metric-label">Qatar Sources</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- LIVE FEED -->
-            <div class="panel full-width">
-                <div class="panel-header">
-                    <span class="panel-title">📰 Live Intelligence Feed</span>
+                    <span class="panel-title">📡 Live Intel Feed</span>
                     <span class="panel-time" id="feed-time">--</span>
                 </div>
                 <div id="feed-container">
                     <div class="feed-item">
-                        <div class="feed-content">Loading latest intelligence...</div>
+                        <div class="feed-source">BBC</div>
+                        <div class="feed-content">Click "FETCH NOW" to load live intelligence...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SOURCE METRICS -->
+            <div class="panel full-width">
+                <div class="panel-header">
+                    <span class="panel-title">📊 Source Metrics (Live Fetch)</span>
+                </div>
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="metric-value" id="bbc-metric">--</div>
+                        <div class="metric-label">BBC</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value" id="reuters-metric">--</div>
+                        <div class="metric-label">Reuters</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value" id="aljaz-metric">--</div>
+                        <div class="metric-label">Al Jazeera</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value" id="total-metric">--</div>
+                        <div class="metric-label">Total Intel</div>
                     </div>
                 </div>
             </div>
@@ -446,75 +266,128 @@
     </div>
 
     <div class="footer">
-        <p>SENTINEL-Q Autonomous Crisis Monitor | 8 Sources | 5-Minute Intervals</p>
-        <p style="margin-top: 5px;">THAAD/Aegis Active | Al Udeid Protected | Auto-refresh: 60s</p>
+        <p>SENTINEL-Q | Client-Side Live Fetch | THAAD/Aegis Active | Al Udeid Protected</p>
     </div>
 
     <script>
-        async function fetchState() {
+        // CORS proxy for fetching news
+        const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
+        
+        async function fetchBBC() {
             try {
-                const response = await fetch('state.json?' + Date.now());
-                const data = await response.json();
-                updateUI(data);
+                const url = 'https://www.bbc.com/news/world/middle-east';
+                const response = await fetch(CORS_PROXY + encodeURIComponent(url));
+                const text = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(text, 'text/html');
+                const headlines = [];
+                doc.querySelectorAll('h2, h3').forEach(h => {
+                    const text = h.textContent.trim();
+                    if (text && (text.toLowerCase().includes('qatar') || text.toLowerCase().includes('iran') || 
+                        text.toLowerCase().includes('missile') || text.toLowerCase().includes('strike'))) {
+                        headlines.push({ source: 'BBC', text: text });
+                    }
+                });
+                return headlines.slice(0, 3);
             } catch (e) {
-                console.error('Error loading state:', e);
+                return [{ source: 'BBC', text: 'Fetch error: ' + e.message }];
             }
         }
-
-        function updateUI(data) {
-            // Header
+        
+        async function fetchAlJazeera() {
+            try {
+                const url = 'https://www.aljazeera.com/middle-east/';
+                const response = await fetch(CORS_PROXY + encodeURIComponent(url));
+                const text = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(text, 'text/html');
+                const headlines = [];
+                doc.querySelectorAll('h1, h2, h3').forEach(h => {
+                    const text = h.textContent.trim();
+                    if (text && (text.toLowerCase().includes('qatar') || text.toLowerCase().includes('iran') || 
+                        text.toLowerCase().includes('missile') || text.toLowerCase().includes('gulf'))) {
+                        headlines.push({ source: 'Al Jazeera', text: text });
+                    }
+                });
+                return headlines.slice(0, 3);
+            } catch (e) {
+                return [{ source: 'Al Jazeera', text: 'Fetch error: ' + e.message }];
+            }
+        }
+        
+        async function fetchReuters() {
+            try {
+                const url = 'https://www.reuters.com/world/middle-east/';
+                const response = await fetch(CORS_PROXY + encodeURIComponent(url));
+                const text = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(text, 'text/html');
+                const headlines = [];
+                doc.querySelectorAll('h2, h3').forEach(h => {
+                    const txt = h.textContent.trim();
+                    if (txt && (txt.toLowerCase().includes('qatar') || txt.toLowerCase().includes('iran'))) {
+                        headlines.push({ source: 'Reuters', text: txt });
+                    }
+                });
+                return headlines.slice(0, 3);
+            } catch (e) {
+                return [{ source: 'Reuters', text: 'Fetch error (rate limited)' }];
+            }
+        }
+        
+        async function fetchAllIntel() {
+            const statusEl = document.getElementById('fetch-status');
+            statusEl.innerHTML = '<span class="loading">Fetching live intel...</span>';
+            
+            const [bbc, aljaz, reuters] = await Promise.all([
+                fetchBBC(),
+                fetchAlJazeera(),
+                fetchReuters()
+            ]);
+            
+            const allIntel = [...bbc, ...aljaz, ...reuters];
+            
+            // Update feed
+            const feedContainer = document.getElementById('feed-container');
+            feedContainer.innerHTML = '';
+            allIntel.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'feed-item warning';
+                div.innerHTML = `<div class="feed-source">${item.source}</div>
+                                <div class="feed-content">${item.text.substring(0, 150)}${item.text.length > 150 ? '...' : ''}</div>`;
+                feedContainer.appendChild(div);
+            });
+            
+            // Update metrics
+            document.getElementById('bbc-metric').textContent = bbc.length;
+            document.getElementById('aljaz-metric').textContent = aljaz.length;
+            document.getElementById('reuters-metric').textContent = reuters.length;
+            document.getElementById('total-metric').textContent = allIntel.length;
+            
+            // Update times
+            document.getElementById('last-fetch').textContent = new Date().toLocaleTimeString();
+            document.getElementById('feed-time').textContent = new Date().toLocaleTimeString();
+            
+            // Update threat level based on intel count
             const header = document.getElementById('header');
             const headerTitle = document.getElementById('header-title');
             const statusLight = document.getElementById('status-light');
             const threatLevel = document.getElementById('threat-level');
             
-            const level = data.threat_level || 'ORANGE';
+            let level = 'ORANGE';
+            if (allIntel.length > 8) level = 'RED';
+            else if (allIntel.length < 3) level = 'YELLOW';
+            
             header.className = 'header ' + level.toLowerCase();
             headerTitle.textContent = (level === 'RED' ? '🔴' : level === 'ORANGE' ? '🟠' : '🟡') + ' SENTINEL-Q';
             statusLight.className = 'status-indicator status-' + level.toLowerCase();
             threatLevel.textContent = 'THREAT LEVEL: ' + level;
             
-            // Times
-            document.getElementById('last-update').textContent = data.last_check || '--';
-            document.getElementById('next-check').textContent = data.next_check || '--';
-            document.getElementById('feed-time').textContent = new Date().toLocaleTimeString();
-            
-            // Source metrics
-            if (data.intel_counts) {
-                document.getElementById('bbc-count').textContent = data.intel_counts.BBC || 0;
-                document.getElementById('reuters-count').textContent = (data.intel_counts.Reuters || 0) + (data.intel_counts.Reuters_RSS || 0);
-                document.getElementById('aljaz-count').textContent = (data.intel_counts.AlJazeera || 0) + (data.intel_counts.AlJazeera_RSS || 0);
-                document.getElementById('qatar-count').textContent = (data.intel_counts.GulfTimes || 0) + (data.intel_counts.QatarTribune || 0) + (data.intel_counts.DohaNews || 0);
-            }
-            
-            // Situational awareness
-            if (data.situational_awareness) {
-                const sa = data.situational_awareness;
-                document.getElementById('sa-threat').textContent = sa.primary_threat || 'Iranian missile strikes';
-                document.getElementById('sa-axis').textContent = sa.threat_axis || 'NW → SE';
-                document.getElementById('sa-distance').textContent = sa.distance_from_threat || '~300km';
-                document.getElementById('sa-flight').textContent = sa.flight_time || '4-7 minutes';
-                document.getElementById('sa-assets').textContent = sa.us_assets || 'Al Udeid (CENTCOM)';
-                document.getElementById('sa-civilian').textContent = sa.civilian_impact || 'Flights grounded';
-            }
-            
-            // Feed
-            const feedContainer = document.getElementById('feed-container');
-            if (data.recent_headlines && data.recent_headlines.length > 0) {
-                feedContainer.innerHTML = '';
-                data.recent_headlines.slice(0, 6).forEach(headline => {
-                    if (headline && headline !== 'END' && !headline.includes('readableMessage')) {
-                        const div = document.createElement('div');
-                        div.className = 'feed-item' + (data.threat_level === 'RED' ? ' critical' : ' warning');
-                        div.innerHTML = `<div class="feed-content">${headline.substring(0, 200)}${headline.length > 200 ? '...' : ''}</div>`;
-                        feedContainer.appendChild(div);
-                    }
-                });
-            }
+            statusEl.innerHTML = '✅ Fetched ' + allIntel.length + ' items';
         }
-
-        fetchState();
-        setInterval(fetchState, 60000);
+        
+        // Auto-fetch on load
+        window.onload = fetchAllIntel;
     </script>
 </body>
 </html>
